@@ -1,125 +1,148 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 
 const container = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.12, delayChildren: 0.3 }
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
   }
 }
 
 const item = {
-  hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+  hidden: { opacity: 0, y: 50 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] } }
 }
 
-const wordReveal = {
-  hidden: { opacity: 0, y: 60 },
-  show: (i) => ({
-    opacity: 1, y: 0,
-    transition: { duration: 0.8, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }
-  })
-}
+const stats = [
+  { num: '50K+', label: 'Citizens Reached' },
+  { num: '12', label: 'States Covered' },
+  { num: '200+', label: 'Institutions' },
+  { num: '6', label: 'Focus Areas' },
+]
 
 export default function HeroSection({ onJoinClick }) {
-  const headline = ['WE,',  'PEOPLE.']
+  const statsRef = useRef(null)
+  const statsInView = useInView(statsRef, { once: true })
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-paper bg-newsprint"
+      className="relative min-h-screen flex flex-col justify-center overflow-hidden"
       aria-label="Hero section"
+      style={{ backgroundColor: 'var(--paper)' }}
     >
-      {/* Background decorative elements */}
+      {/* ── Rich Background Layer ── */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        {/* Constitution-inspired horizontal lines */}
-        <div className="absolute inset-0 bg-constitution-lines opacity-60" />
+        {/* Ruled paper lines — constitution inspired */}
+        <div className="absolute inset-0 bg-constitution-lines opacity-70" />
 
-        {/* Large circular motif from logo — top right */}
-        <div className="absolute -top-32 -right-32 w-[480px] h-[480px] rounded-full border border-charcoal/5" />
-        <div className="absolute -top-20 -right-20 w-[360px] h-[360px] rounded-full border border-charcoal/5" />
-        <div className="absolute top-0 right-16 w-[240px] h-[240px] rounded-full border border-saffron/8" />
+        {/* Diagonal newsprint texture */}
+        <div className="absolute inset-0 bg-newsprint" />
 
-        {/* Bottom left circles */}
-        <div className="absolute -bottom-24 -left-24 w-[320px] h-[320px] rounded-full border border-charcoal/6" />
-
-        {/* Decorative article fragments */}
-        <div className="absolute top-24 left-8 md:left-16 opacity-[0.04] select-none">
-          <p className="font-serif text-4xl font-bold text-charcoal leading-none">ARTICLE 19</p>
-          <p className="font-body text-xs text-charcoal mt-1 max-w-[200px]">Protection of certain rights<br/>regarding freedom of speech...</p>
-        </div>
-        <div className="absolute bottom-32 right-8 md:right-16 opacity-[0.04] select-none text-right">
-          <p className="font-serif text-4xl font-bold text-charcoal leading-none">ARTICLE 21</p>
-          <p className="font-body text-xs text-charcoal mt-1 max-w-[180px]">Protection of life and<br/>personal liberty...</p>
+        {/* Large decorative Constitution article — top left */}
+        <div className="absolute top-16 left-4 md:left-10 opacity-[0.06] select-none">
+          <p className="font-serif text-[5rem] md:text-[8rem] font-black text-charcoal leading-none tracking-tighter">19</p>
+          <p className="font-body text-[10px] text-charcoal mt-1 max-w-[180px] leading-relaxed">
+            Right to Freedom<br/>of Speech & Expression<br/>— Constitution of India
+          </p>
         </div>
 
-        {/* Saffron accent stripe */}
-        <div className="absolute left-0 top-1/3 w-1 h-32 bg-saffron opacity-30" />
+        {/* Right side — Article 21 */}
+        <div className="absolute top-24 right-4 md:right-12 opacity-[0.06] select-none text-right">
+          <p className="font-serif text-[5rem] md:text-[8rem] font-black text-charcoal leading-none tracking-tighter">21</p>
+          <p className="font-body text-[10px] text-charcoal mt-1 max-w-[160px] leading-relaxed">
+            Protection of Life<br/>& Personal Liberty<br/>— Constitution of India
+          </p>
+        </div>
+
+        {/* Bottom right fragment */}
+        <div className="absolute bottom-20 left-8 md:left-16 opacity-[0.05] select-none">
+          <p className="font-serif text-[3rem] md:text-[5rem] font-black text-charcoal leading-none tracking-tighter">51A</p>
+          <p className="font-body text-[10px] text-charcoal mt-1 max-w-[180px] leading-relaxed">
+            Fundamental Duties<br/>of every citizen
+          </p>
+        </div>
+
+        {/* Saffron vertical accent */}
+        <motion.div
+          initial={{ scaleY: 0 }}
+          animate={{ scaleY: 1 }}
+          transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute left-0 top-1/4 w-1 h-40 bg-saffron origin-top opacity-60"
+        />
+
+        {/* Circular motifs */}
+        <div className="absolute -top-40 -right-40 w-[560px] h-[560px] rounded-full border border-charcoal/[0.04]" />
+        <div className="absolute -top-24 -right-24 w-[400px] h-[400px] rounded-full border border-saffron/[0.06]" />
+        <div className="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full border border-charcoal/[0.04]" />
+
+        {/* Horizontal divider lines — editorial */}
+        <div className="absolute top-[28%] left-0 right-0 h-px bg-charcoal/[0.06]" />
+        <div className="absolute top-[30%] left-0 right-[60%] h-px bg-saffron/20" />
+
+        {/* Notice board push-pin dots */}
+        <div className="absolute top-10 left-10 w-2 h-2 rounded-full bg-saffron/20" />
+        <div className="absolute top-10 right-10 w-2 h-2 rounded-full bg-saffron/20" />
       </div>
 
-      {/* Main Content */}
-      <div className="section-container relative z-10 pt-32 pb-20">
+      {/* ── Main Content ── */}
+      <div className="section-container relative z-10 pt-28 pb-16 md:pt-36 md:pb-24">
         <div className="max-w-5xl">
-          {/* Eyebrow label */}
+
+          {/* Eyebrow */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -24 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="flex items-center gap-3 mb-10"
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center gap-3 mb-8"
           >
             <div className="w-8 h-px bg-saffron" />
-            <span className="section-label">An Independent Citizen-Led Platform</span>
+            <span className="section-label">An Independent Citizen-Led Platform · Est. 2025</span>
           </motion.div>
 
-          {/* Hero Headline — staggered words */}
-          <h1 className="font-display text-hero font-normal leading-none tracking-tight mb-8 text-charcoal">
-            {headline.map((word, i) => (
-              <motion.span
-                key={word}
-                custom={i}
-                initial="hidden"
-                animate="show"
-                variants={wordReveal}
-                className="inline-block mr-[0.2em]"
-              >
-                {word === 'PEOPLE.' ? (
-                  <>
-                    {'THE '}
-                    <span className="relative">
-                      PEOPLE
-                      <motion.span
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ duration: 0.6, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute -bottom-2 left-0 right-0 h-1 bg-saffron origin-left"
-                      />
-                      .
-                    </span>
-                  </>
-                ) : word}
+          {/* Main Headline */}
+          <motion.div variants={container} initial="hidden" animate="show">
+            <h1 className="font-display text-hero font-normal leading-none tracking-tight text-charcoal mb-0">
+              <motion.span variants={item} className="block">WE</motion.span>
+              <motion.span variants={item} className="block">THE</motion.span>
+              <motion.span variants={item} className="block relative inline-block">
+                PEOPLE
+                <motion.span
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 0.7, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute -bottom-3 left-0 right-0 h-[5px] bg-saffron origin-left"
+                />
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.9 }}
+                  className="text-saffron"
+                >.</motion.span>
               </motion.span>
-            ))}
-          </h1>
+            </h1>
+          </motion.div>
 
           {/* Subheadline */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.55 }}
-            className="text-xl md:text-2xl text-charcoal/60 font-light max-w-2xl leading-relaxed mb-12 font-serif italic"
+            transition={{ duration: 0.8, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-8 text-xl md:text-2xl text-charcoal/55 font-light max-w-xl leading-relaxed font-serif italic"
           >
-            Democracy is strongest when citizens are informed.
+            Democracy is strongest when citizens are informed, engaged, and unafraid to speak.
           </motion.p>
 
-          {/* Central tagline */}
+          {/* Body copy */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="text-sm text-charcoal/50 max-w-lg mb-12 leading-relaxed"
+            transition={{ duration: 0.7, delay: 0.9 }}
+            className="mt-5 text-sm text-charcoal/50 max-w-lg leading-relaxed"
           >
             NOTA Speaks is an independent platform for Legal Awareness, Civic Education, 
-            Constitutional Literacy, and Active Citizenship. Because an informed citizen 
+            Constitutional Literacy, and Active Citizenship — because an informed citizen 
             is the king of a democracy.
           </motion.p>
 
@@ -127,13 +150,14 @@ export default function HeroSection({ onJoinClick }) {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.85 }}
-            className="flex flex-col sm:flex-row gap-4 mb-20"
+            transition={{ duration: 0.6, delay: 1.05 }}
+            className="flex flex-col sm:flex-row gap-4 mt-10 mb-16"
           >
             <button
               onClick={onJoinClick}
               className="btn-primary text-sm"
               aria-label="Join NOTA Speaks movement"
+              id="hero-join-btn"
             >
               Join the Movement
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -154,21 +178,22 @@ export default function HeroSection({ onJoinClick }) {
 
           {/* Stats bar */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.1 }}
-            className="flex flex-wrap gap-10 pt-8 border-t border-charcoal/10"
+            ref={statsRef}
+            initial={{ opacity: 0, y: 20 }}
+            animate={statsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex flex-wrap gap-8 md:gap-12 pt-8 border-t border-charcoal/10"
           >
-            {[
-              { num: '50K+', label: 'Citizens Reached' },
-              { num: '12', label: 'States Covered' },
-              { num: '200+', label: 'Institutions' },
-              { num: '6', label: 'Focus Areas' },
-            ].map(({ num, label }) => (
-              <div key={label}>
-                <p className="font-serif text-3xl font-bold text-charcoal">{num}</p>
-                <p className="text-xs text-charcoal/50 mt-0.5 tracking-wide">{label}</p>
-              </div>
+            {stats.map(({ num, label }, i) => (
+              <motion.div
+                key={label}
+                initial={{ opacity: 0, y: 16 }}
+                animate={statsInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.3 + i * 0.08 }}
+              >
+                <p className="font-serif text-3xl md:text-4xl font-bold text-charcoal leading-none">{num}</p>
+                <p className="text-[11px] text-charcoal/45 mt-1.5 tracking-caps uppercase font-medium">{label}</p>
+              </motion.div>
             ))}
           </motion.div>
         </div>
@@ -178,15 +203,15 @@ export default function HeroSection({ onJoinClick }) {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
+        transition={{ delay: 1.8 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         aria-hidden="true"
       >
-        <span className="text-[10px] tracking-caps uppercase text-charcoal/30 font-medium">Scroll</span>
+        <span className="text-[9px] tracking-caps uppercase text-charcoal/30 font-semibold">Scroll</span>
         <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="w-px h-8 bg-gradient-to-b from-charcoal/30 to-transparent"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+          className="w-px h-10 bg-gradient-to-b from-saffron/40 to-transparent"
         />
       </motion.div>
     </section>

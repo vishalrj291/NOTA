@@ -5,13 +5,15 @@ const cards = [
   {
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1M4.22 4.22l.7.7m14.16 14.16l.7.7M1 12h1m20 0h1M4.22 19.78l.7-.7M18.36 5.64l.7-.7M9 12a3 3 0 106 0 3 3 0 00-6 0z"/>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0012 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 01-2.031.352 5.988 5.988 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.97z"/>
       </svg>
     ),
     label: 'Legal Awareness',
     title: 'Know Your Rights',
     desc: 'Every citizen has rights guaranteed by the Constitution. We make them understandable — from FIR procedures to tenant protections, RTI applications to consumer rights.',
     accent: '#E8861A',
+    stat: '50K+',
+    statLabel: 'Citizens Informed',
   },
   {
     icon: (
@@ -23,6 +25,8 @@ const cards = [
     title: 'Understand the Constitution',
     desc: 'The Indian Constitution is the bedrock of democracy. We decode its articles, amendments, and fundamental rights into language every citizen can understand and use.',
     accent: '#0D1B2A',
+    stat: '30+',
+    statLabel: 'Articles Explained',
   },
   {
     icon: (
@@ -34,6 +38,8 @@ const cards = [
     title: 'How Democracy Works',
     desc: 'How does Parliament function? What does your local representative do? How can you file a grievance? Civic education transforms passive observers into active participants.',
     accent: '#E8861A',
+    stat: '200+',
+    statLabel: 'Institutions Reached',
   },
   {
     icon: (
@@ -43,8 +49,10 @@ const cards = [
     ),
     label: 'Active Citizenship',
     title: 'Be the Change',
-    desc: 'Citizenship is not passive. Voting, engaging with public policy, holding representatives accountable, and participating in democracy — these are responsibilities, not just rights.',
+    desc: 'Citizenship is not passive. Voting, engaging with public policy, holding representatives accountable — these are responsibilities, not just rights.',
     accent: '#0D1B2A',
+    stat: '12',
+    statLabel: 'States Covered',
   },
 ]
 
@@ -68,11 +76,22 @@ export default function WhySection() {
   const headerInView = useInView(headerRef, { once: true, margin: '-60px' })
 
   return (
-    <section id="why" className="py-24 md:py-32 bg-paper-50 relative overflow-hidden" aria-labelledby="why-heading">
-      {/* Background decorations */}
-      <div className="absolute top-0 right-0 w-72 h-72 rounded-full border border-charcoal/5 translate-x-1/2 -translate-y-1/2" aria-hidden="true" />
+    <section id="why" className="py-24 md:py-32 relative overflow-hidden" style={{ backgroundColor: 'var(--paper-50)' }} aria-labelledby="why-heading">
+      {/* Rich background — noticeboard texture */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute inset-0 bg-constitution-lines opacity-60" />
+        {/* Pushpin dots at corners — noticeboard effect */}
+        <div className="absolute top-6 left-6 w-3 h-3 rounded-full border-2 border-saffron/25 bg-saffron/10" />
+        <div className="absolute top-6 right-6 w-3 h-3 rounded-full border-2 border-saffron/25 bg-saffron/10" />
+        <div className="absolute bottom-6 left-6 w-3 h-3 rounded-full border-2 border-charcoal/15 bg-charcoal/5" />
+        <div className="absolute bottom-6 right-6 w-3 h-3 rounded-full border-2 border-charcoal/15 bg-charcoal/5" />
+        {/* Large background number */}
+        <div className="absolute -right-8 top-1/2 -translate-y-1/2 font-serif text-[20rem] font-black text-charcoal/[0.025] leading-none select-none">
+          IV
+        </div>
+      </div>
 
-      <div className="section-container">
+      <div className="section-container relative z-10">
         {/* Header */}
         <motion.div
           ref={headerRef}
@@ -82,49 +101,59 @@ export default function WhySection() {
           className="mb-16"
         >
           <span className="section-label block mb-3">Why NOTA Speaks</span>
-          <div className="flex items-end gap-6">
-            <h2 id="why-heading" className="section-title max-w-2xl">
+          <div className="flex flex-col md:flex-row md:items-end gap-4 md:gap-8">
+            <h2 id="why-heading" className="section-title max-w-xl">
               The Pillars of an Informed Democracy
             </h2>
             <div className="hidden md:block flex-1 h-px bg-charcoal/10 mb-3" />
           </div>
-          <p className="mt-4 text-charcoal/60 max-w-xl leading-relaxed">
+          <p className="mt-4 text-charcoal/55 max-w-lg leading-relaxed text-sm">
             We believe in four fundamentals that transform citizens from spectators into participants.
           </p>
         </motion.div>
 
         {/* Cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {cards.map((card, i) => (
             <CardReveal key={card.label} delay={i * 0.1}>
               <article
                 className="civic-card group relative overflow-hidden cursor-default h-full"
                 aria-label={card.label}
               >
-                {/* Accent bar */}
+                {/* Accent bar top */}
                 <div
-                  className="absolute top-0 left-0 h-1 w-0 group-hover:w-full transition-all duration-500"
+                  className="absolute top-0 left-0 h-[3px] w-0 group-hover:w-full transition-all duration-500"
                   style={{ background: card.accent }}
                   aria-hidden="true"
                 />
 
-                <div className="flex items-start gap-4 mb-4">
+                <div className="flex items-start gap-4 mb-5">
                   <div
-                    className="w-12 h-12 flex items-center justify-center flex-shrink-0 transition-colors duration-300"
-                    style={{ color: card.accent, border: `1px solid ${card.accent}20`, background: `${card.accent}08` }}
+                    className="w-12 h-12 flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110"
+                    style={{ color: card.accent, border: `1px solid ${card.accent}25`, background: `${card.accent}08` }}
                   >
                     {card.icon}
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <span className="section-label text-[10px]" style={{ color: card.accent }}>{card.label}</span>
                     <h3 className="font-serif text-xl font-bold text-charcoal mt-0.5">{card.title}</h3>
+                  </div>
+                  {/* Stat */}
+                  <div className="text-right flex-shrink-0">
+                    <p className="font-serif text-2xl font-bold" style={{ color: card.accent }}>{card.stat}</p>
+                    <p className="text-[9px] text-charcoal/40 tracking-wide">{card.statLabel}</p>
                   </div>
                 </div>
 
                 <p className="text-charcoal/60 text-sm leading-relaxed">{card.desc}</p>
 
-                {/* Subtle quote mark */}
-                <div className="absolute bottom-4 right-4 font-serif text-6xl text-charcoal/5 leading-none select-none" aria-hidden="true">"</div>
+                {/* Decorative quote mark */}
+                <div
+                  className="absolute bottom-4 right-5 font-serif text-7xl text-charcoal/[0.04] leading-none select-none group-hover:text-opacity-10 transition-colors"
+                  aria-hidden="true"
+                >
+                  "
+                </div>
               </article>
             </CardReveal>
           ))}
@@ -138,7 +167,7 @@ export default function WhySection() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-16 text-center"
         >
-          <p className="font-serif text-2xl italic text-charcoal/40">
+          <p className="font-serif text-xl md:text-2xl italic text-charcoal/35">
             "An informed citizen is the king of a democracy."
           </p>
         </motion.div>

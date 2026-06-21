@@ -74,21 +74,27 @@ function PillarCard({ pillar, index }) {
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: (index % 3) * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="relative bg-white border border-charcoal/8 p-7 group hover:border-saffron/30 hover:shadow-md transition-all duration-300 overflow-hidden"
+      className="relative border border-white/10 p-7 group hover:border-saffron/40 hover:bg-white/5 transition-all duration-300 overflow-hidden"
       aria-label={pillar.title}
     >
-      {/* Number */}
-      <div className="absolute top-4 right-4 font-serif text-6xl font-bold text-charcoal/5 leading-none select-none group-hover:text-saffron/10 transition-colors" aria-hidden="true">
+      {/* Number watermark */}
+      <div
+        className="absolute top-3 right-4 font-serif text-7xl font-black text-white/[0.04] leading-none select-none group-hover:text-saffron/8 transition-colors"
+        aria-hidden="true"
+      >
         {pillar.number}
       </div>
 
+      {/* Left accent */}
+      <div className="absolute left-0 top-6 bottom-6 w-0.5 bg-saffron/20 group-hover:bg-saffron/60 transition-colors" />
+
       {/* Icon */}
-      <div className="w-10 h-10 flex items-center justify-center mb-4 text-saffron border border-saffron/20 bg-saffron/5">
+      <div className="w-10 h-10 flex items-center justify-center mb-5 text-saffron border border-saffron/25 bg-saffron/8 group-hover:bg-saffron/15 transition-colors">
         {pillar.icon}
       </div>
 
-      <h3 className="font-serif text-lg font-bold text-charcoal mb-2">{pillar.title}</h3>
-      <p className="text-sm text-charcoal/60 leading-relaxed">{pillar.desc}</p>
+      <h3 className="font-serif text-lg font-bold text-paper mb-2 leading-tight">{pillar.title}</h3>
+      <p className="text-sm text-paper/50 leading-relaxed">{pillar.desc}</p>
     </motion.article>
   )
 }
@@ -99,17 +105,18 @@ export default function VisionSection() {
 
   return (
     <section id="vision" className="py-24 md:py-32 bg-charcoal relative overflow-hidden" aria-labelledby="vision-heading">
-      {/* Background: subtle circular motifs */}
+      {/* Background */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden" aria-hidden="true">
-        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full border border-white/5" />
-        <div className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full border border-white/5" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-white/3" />
-        {/* Diagonal lines texture */}
-        <div className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: 'repeating-linear-gradient(-45deg, #fff, #fff 1px, transparent 1px, transparent 40px)'
-          }}
+        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full border border-white/4" />
+        <div className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full border border-white/4" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-white/[0.02]" />
+        {/* Diagonal lines */}
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{ backgroundImage: 'repeating-linear-gradient(-45deg, #fff, #fff 1px, transparent 1px, transparent 40px)' }}
         />
+        {/* Saffron accent */}
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-saffron/40 to-transparent" />
       </div>
 
       <div className="section-container relative z-10">
@@ -123,9 +130,10 @@ export default function VisionSection() {
         >
           <span className="section-label block mb-3" style={{ color: '#F49B28' }}>Our Vision</span>
           <h2 id="vision-heading" className="section-title text-paper max-w-2xl">
-            Six Pillars of a <em className="not-italic text-saffron">Citizen-Powered</em> India
+            Six Pillars of a{' '}
+            <em className="not-italic text-saffron">Citizen-Powered</em> India
           </h2>
-          <p className="mt-4 text-paper/50 max-w-xl leading-relaxed">
+          <p className="mt-4 text-paper/45 max-w-xl leading-relaxed text-sm">
             Our vision is built on six non-negotiable commitments to every citizen of this nation.
           </p>
         </motion.div>
@@ -136,6 +144,19 @@ export default function VisionSection() {
             <PillarCard key={pillar.number} pillar={pillar} index={i} />
           ))}
         </div>
+
+        {/* Quote */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mt-16 text-center"
+        >
+          <p className="font-serif text-xl md:text-2xl italic text-paper/25">
+            "An informed citizen is the king of a democracy."
+          </p>
+        </motion.div>
       </div>
     </section>
   )

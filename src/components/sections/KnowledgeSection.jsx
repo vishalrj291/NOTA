@@ -1,5 +1,6 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
+import KnowledgeModal from './KnowledgeModal'
 
 const categories = [
   {
@@ -15,6 +16,7 @@ const categories = [
     color: '#E8861A',
     bg: 'bg-saffron/5',
     border: 'border-saffron/20 hover:border-saffron/50',
+    emoji: '⚖️',
   },
   {
     id: 'rti',
@@ -29,6 +31,7 @@ const categories = [
     color: '#0D1B2A',
     bg: 'bg-navy/5',
     border: 'border-navy/15 hover:border-navy/40',
+    emoji: '📄',
   },
   {
     id: 'consumer-rights',
@@ -43,6 +46,7 @@ const categories = [
     color: '#E8861A',
     bg: 'bg-saffron/5',
     border: 'border-saffron/20 hover:border-saffron/50',
+    emoji: '🛡️',
   },
   {
     id: 'cyber-safety',
@@ -57,6 +61,7 @@ const categories = [
     color: '#0D1B2A',
     bg: 'bg-navy/5',
     border: 'border-navy/15 hover:border-navy/40',
+    emoji: '🔐',
   },
   {
     id: 'constitution',
@@ -71,6 +76,7 @@ const categories = [
     color: '#E8861A',
     bg: 'bg-saffron/5',
     border: 'border-saffron/20 hover:border-saffron/50',
+    emoji: '📜',
   },
   {
     id: 'legal-awareness',
@@ -79,103 +85,169 @@ const categories = [
     count: '20+ Guides',
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1M4.22 4.22l.7.7m14.16 14.16l.7.7M1 12h1m20 0h1M4.22 19.78l.7-.7M18.36 5.64l.7-.7M9 12a3 3 0 106 0 3 3 0 00-6 0z"/>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/>
       </svg>
     ),
     color: '#0D1B2A',
     bg: 'bg-navy/5',
     border: 'border-navy/15 hover:border-navy/40',
+    emoji: '🏛️',
+  },
+  {
+    id: 'civic-participation',
+    title: 'Civic Participation',
+    desc: 'Voting, holding representatives accountable, RTI, grievance filing — your democratic power.',
+    count: '10+ Guides',
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
+      </svg>
+    ),
+    color: '#E8861A',
+    bg: 'bg-saffron/5',
+    border: 'border-saffron/20 hover:border-saffron/50',
+    emoji: '🗳️',
+  },
+  {
+    id: 'paper-leak',
+    title: 'Paper Leak Awareness',
+    desc: 'Your rights as a student, how to report exam fraud, and fighting for fair examination systems.',
+    count: '5+ Guides',
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>
+      </svg>
+    ),
+    color: '#0D1B2A',
+    bg: 'bg-navy/5',
+    border: 'border-navy/15 hover:border-navy/40',
+    emoji: '📚',
   },
 ]
 
 export default function KnowledgeSection() {
+  const [activeTopicId, setActiveTopicId] = useState(null)
   const headerRef = useRef(null)
   const headerInView = useInView(headerRef, { once: true, margin: '-60px' })
 
   return (
-    <section id="knowledge" className="py-24 md:py-32 bg-paper" aria-labelledby="knowledge-heading">
-      <div className="section-container">
-        {/* Header */}
-        <motion.div
-          ref={headerRef}
-          initial={{ opacity: 0, y: 30 }}
-          animate={headerInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="mb-16"
-        >
-          <span className="section-label block mb-3">Resources</span>
-          <h2 id="knowledge-heading" className="section-title max-w-2xl">
-            The Knowledge Hub
-          </h2>
-          <p className="mt-4 text-charcoal/60 max-w-xl leading-relaxed">
-            Six pillars of knowledge, designed for every citizen. Free, accessible, and always growing.
-          </p>
-        </motion.div>
-
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {categories.map((cat, i) => (
-            <motion.div
-              key={cat.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.6, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <a
-                href={`#knowledge-${cat.id}`}
-                className={`block p-6 border bg-white ${cat.border} transition-all duration-300 hover:shadow-md hover:-translate-y-1 group`}
-                aria-label={`${cat.title} — ${cat.count}`}
-              >
-                <div
-                  className={`w-12 h-12 ${cat.bg} flex items-center justify-center mb-4 transition-colors`}
-                  style={{ color: cat.color }}
-                >
-                  {cat.icon}
-                </div>
-
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-serif text-lg font-bold text-charcoal leading-snug">
-                    {cat.title}
-                  </h3>
-                  <span
-                    className="text-[10px] font-semibold tracking-wide px-2 py-0.5 flex-shrink-0 ml-2"
-                    style={{ color: cat.color, background: `${cat.color}10` }}
-                  >
-                    {cat.count}
-                  </span>
-                </div>
-
-                <p className="text-sm text-charcoal/60 leading-relaxed mb-4">{cat.desc}</p>
-
-                <span
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-editorial uppercase transition-colors"
-                  style={{ color: cat.color }}
-                >
-                  Explore
-                  <svg className="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </span>
-              </a>
-            </motion.div>
-          ))}
+    <>
+      <section id="knowledge" className="py-24 md:py-32 bg-paper relative overflow-hidden" aria-labelledby="knowledge-heading">
+        {/* Background decoration */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          <div className="absolute inset-0 bg-constitution-lines opacity-50" />
+          <div className="absolute top-0 right-0 w-64 h-64 rounded-full border border-saffron/8 translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full border border-charcoal/5 -translate-x-1/2 translate-y-1/2" />
         </div>
 
-        {/* Coming soon note */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-10 p-5 border border-dashed border-charcoal/15 bg-charcoal/2 text-center"
-        >
-          <p className="text-sm text-charcoal/50">
-            <span className="font-semibold text-charcoal/70">More categories coming soon.</span> The Knowledge Hub is continuously expanding.
-            <span className="text-saffron"> Suggest a topic →</span>
-          </p>
-        </motion.div>
-      </div>
-    </section>
+        <div className="section-container relative z-10">
+          {/* Header */}
+          <motion.div
+            ref={headerRef}
+            initial={{ opacity: 0, y: 30 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
+            className="mb-14"
+          >
+            <span className="section-label block mb-3">Knowledge Hub</span>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <h2 id="knowledge-heading" className="section-title max-w-xl">
+                Eight Pillars of Civic Knowledge
+              </h2>
+              <p className="text-charcoal/55 max-w-xs leading-relaxed text-sm md:text-right">
+                Click any card to explore complete guides, real examples, and actionable steps.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {categories.map((cat, i) => (
+              <motion.div
+                key={cat.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <button
+                  onClick={() => setActiveTopicId(cat.id)}
+                  className={`w-full text-left block p-6 border bg-white ${cat.border} transition-all duration-300 hover:shadow-lg hover:-translate-y-1.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron`}
+                  aria-label={`Explore ${cat.title} — ${cat.count}`}
+                  id={`knowledge-${cat.id}`}
+                >
+                  {/* Accent top bar */}
+                  <div
+                    className="h-[3px] w-0 group-hover:w-full transition-all duration-500 mb-4 -mt-6 -mx-6 rounded-none"
+                    style={{ background: cat.color }}
+                    aria-hidden="true"
+                  />
+
+                  <div
+                    className={`w-12 h-12 ${cat.bg} flex items-center justify-center mb-4 transition-transform group-hover:scale-110 duration-300`}
+                    style={{ color: cat.color }}
+                  >
+                    {cat.icon}
+                  </div>
+
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="font-serif text-base font-bold text-charcoal leading-snug">
+                      {cat.title}
+                    </h3>
+                    <span
+                      className="text-[9px] font-semibold tracking-wide px-2 py-0.5 flex-shrink-0 ml-2 whitespace-nowrap"
+                      style={{ color: cat.color, background: `${cat.color}12` }}
+                    >
+                      {cat.count}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-charcoal/55 leading-relaxed mb-4">{cat.desc}</p>
+
+                  <span
+                    className="inline-flex items-center gap-1.5 text-[10px] font-semibold tracking-editorial uppercase transition-all duration-200"
+                    style={{ color: cat.color }}
+                  >
+                    Explore
+                    <svg
+                      className="w-3 h-3 group-hover:translate-x-1.5 transition-transform duration-200"
+                      fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </span>
+                </button>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Coming soon note */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mt-8 p-4 border border-dashed border-charcoal/15 text-center"
+          >
+            <p className="text-sm text-charcoal/50">
+              <span className="font-semibold text-charcoal/65">More topics coming soon.</span>{' '}
+              The Knowledge Hub is continuously expanding.{' '}
+              <button
+                onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
+                className="text-saffron hover:underline font-medium"
+              >
+                Suggest a topic →
+              </button>
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Knowledge Modal */}
+      <KnowledgeModal
+        topicId={activeTopicId}
+        onClose={() => setActiveTopicId(null)}
+      />
+    </>
   )
 }
