@@ -15,9 +15,9 @@ const item = {
 }
 
 const stats = [
-  { num: '50K+', label: 'Citizens Reached' },
-  { num: '12', label: 'States Covered' },
-  { num: '200+', label: 'Institutions' },
+  { num: '5K+', label: 'Citizens Reached' },
+  { num: '1', label: 'States Covered' },
+  { num: '1', label: 'Institutions' },
   { num: '6', label: 'Focus Areas' },
 ]
 

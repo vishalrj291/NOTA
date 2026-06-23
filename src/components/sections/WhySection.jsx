@@ -12,7 +12,7 @@ const cards = [
     title: 'Know Your Rights',
     desc: 'Every citizen has rights guaranteed by the Constitution. We make them understandable — from FIR procedures to tenant protections, RTI applications to consumer rights.',
     accent: '#E8861A',
-    stat: '50K+',
+    stat: '5K+',
     statLabel: 'Citizens Informed',
   },
   {

@@ -10,7 +10,7 @@ const defaultCampaigns = {
     title: 'Know Your Rights',
     status: 'Active Campaign',
     description: 'A nationwide digital campaign educating citizens about fundamental legal rights — from FIR procedures to tenant protections, from filing complaints to understanding bail rights. Every citizen of India has rights guaranteed by the Constitution. The problem is that most people don\'t know what those rights are or how to exercise them.\n\nKnow Your Rights breaks down complex legal provisions into simple, actionable guides. We cover everything from how to file an FIR correctly, what your rights are during police custody, how to approach consumer disputes, and what your fundamental rights as guaranteed by Articles 12–35 of the Constitution actually mean in daily life.',
-    stats: [{ label: 'Citizens Reached', value: '50K+' }, { label: 'States', value: '12' }],
+    stats: [{ label: 'Citizens Reached', value: '5K+' }, { label: 'States', value: '12' }],
   },
   '2': {
     _id: '2',

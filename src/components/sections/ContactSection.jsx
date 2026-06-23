@@ -102,8 +102,8 @@ export default function ContactSection({ onJoinClick }) {
                 </div>
                 <div>
                   <p className="text-[10px] tracking-caps text-paper/40 uppercase mb-1 font-medium">Location</p>
-                  <p className="text-paper font-semibold">India</p>
-                  <p className="text-paper/50 text-sm">Serving citizens nationwide</p>
+                  <p className="text-paper font-semibold">Ranchi, Jharkhand</p>
+                  <p className="text-paper/50 text-sm">Serving citizens across the state</p>
                 </div>
               </div>
             </div>

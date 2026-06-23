@@ -138,7 +138,7 @@ export default function Footer() {
             © {new Date().getFullYear()} NOTA Speaks. All rights reserved. Not affiliated with any political entity.
           </p>
           <a
-            href="https://vishalraj.dev"
+            href="https://www.instagram.com/its__vishal_rj/?hl=en"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs text-paper/40 hover:text-saffron transition-colors duration-200"
