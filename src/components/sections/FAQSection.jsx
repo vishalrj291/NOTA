@@ -103,8 +103,14 @@ export default function FAQSection() {
 
   useEffect(() => {
     api.get('/faqs').then(res => {
-      if (res.data?.length > 0) setFaqs(res.data)
-    }).catch(() => {})
+  const data = Array.isArray(res.data)
+    ? res.data
+    : res.data?.data || res.data?.faqs || []
+
+  if (Array.isArray(data) && data.length > 0) {
+    setFaqs(data)
+  }
+}).catch(() => {})
   }, [])
 
   return (
@@ -142,7 +148,7 @@ export default function FAQSection() {
 
           {/* Right — FAQ list */}
           <div className="lg:col-span-2">
-            {faqs.map((faq, i) => (
+            {(Array.isArray(faqs) ? faqs : defaultFaqs).map((faq, i) => (
               <FAQItem key={faq._id} faq={faq} index={i} />
             ))}
           </div>
