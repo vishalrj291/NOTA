@@ -25,6 +25,8 @@ export default function HeroSection({ onJoinClick }) {
   const statsRef = useRef(null)
   const statsInView = useInView(statsRef, { once: true })
 
+  const safeStats = Array.isArray(stats) ? stats : []
+
   return (
     <section
       id="hero"
@@ -32,39 +34,31 @@ export default function HeroSection({ onJoinClick }) {
       aria-label="Hero section"
       style={{ backgroundColor: 'var(--paper)' }}
     >
-      {/* ── Rich Background Layer ── */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        {/* Ruled paper lines — constitution inspired */}
         <div className="absolute inset-0 bg-constitution-lines opacity-70" />
-
-        {/* Diagonal newsprint texture */}
         <div className="absolute inset-0 bg-newsprint" />
 
-        {/* Large decorative Constitution article — top left */}
         <div className="absolute top-16 left-4 md:left-10 opacity-[0.06] select-none">
           <p className="font-serif text-[5rem] md:text-[8rem] font-black text-charcoal leading-none tracking-tighter">19</p>
           <p className="font-body text-[10px] text-charcoal mt-1 max-w-[180px] leading-relaxed">
-            Right to Freedom<br/>of Speech & Expression<br/>— Constitution of India
+            Right to Freedom<br />of Speech & Expression<br />— Constitution of India
           </p>
         </div>
 
-        {/* Right side — Article 21 */}
         <div className="absolute top-24 right-4 md:right-12 opacity-[0.06] select-none text-right">
           <p className="font-serif text-[5rem] md:text-[8rem] font-black text-charcoal leading-none tracking-tighter">21</p>
           <p className="font-body text-[10px] text-charcoal mt-1 max-w-[160px] leading-relaxed">
-            Protection of Life<br/>& Personal Liberty<br/>— Constitution of India
+            Protection of Life<br />& Personal Liberty<br />— Constitution of India
           </p>
         </div>
 
-        {/* Bottom right fragment */}
         <div className="absolute bottom-20 left-8 md:left-16 opacity-[0.05] select-none">
           <p className="font-serif text-[3rem] md:text-[5rem] font-black text-charcoal leading-none tracking-tighter">51A</p>
           <p className="font-body text-[10px] text-charcoal mt-1 max-w-[180px] leading-relaxed">
-            Fundamental Duties<br/>of every citizen
+            Fundamental Duties<br />of every citizen
           </p>
         </div>
 
-        {/* Saffron vertical accent */}
         <motion.div
           initial={{ scaleY: 0 }}
           animate={{ scaleY: 1 }}
@@ -72,25 +66,19 @@ export default function HeroSection({ onJoinClick }) {
           className="absolute left-0 top-1/4 w-1 h-40 bg-saffron origin-top opacity-60"
         />
 
-        {/* Circular motifs */}
         <div className="absolute -top-40 -right-40 w-[560px] h-[560px] rounded-full border border-charcoal/[0.04]" />
         <div className="absolute -top-24 -right-24 w-[400px] h-[400px] rounded-full border border-saffron/[0.06]" />
         <div className="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full border border-charcoal/[0.04]" />
 
-        {/* Horizontal divider lines — editorial */}
         <div className="absolute top-[28%] left-0 right-0 h-px bg-charcoal/[0.06]" />
         <div className="absolute top-[30%] left-0 right-[60%] h-px bg-saffron/20" />
 
-        {/* Notice board push-pin dots */}
         <div className="absolute top-10 left-10 w-2 h-2 rounded-full bg-saffron/20" />
         <div className="absolute top-10 right-10 w-2 h-2 rounded-full bg-saffron/20" />
       </div>
 
-      {/* ── Main Content ── */}
       <div className="section-container relative z-10 pt-28 pb-16 md:pt-36 md:pb-24">
         <div className="max-w-5xl">
-
-          {/* Eyebrow */}
           <motion.div
             initial={{ opacity: 0, x: -24 }}
             animate={{ opacity: 1, x: 0 }}
@@ -101,7 +89,6 @@ export default function HeroSection({ onJoinClick }) {
             <span className="section-label">An Independent Citizen-Led Platform · Est. 2025</span>
           </motion.div>
 
-          {/* Main Headline */}
           <motion.div variants={container} initial="hidden" animate="show">
             <h1 className="font-display text-hero font-normal leading-none tracking-tight text-charcoal mb-0">
               <motion.span variants={item} className="block">WE</motion.span>
@@ -124,7 +111,6 @@ export default function HeroSection({ onJoinClick }) {
             </h1>
           </motion.div>
 
-          {/* Subheadline */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -134,19 +120,17 @@ export default function HeroSection({ onJoinClick }) {
             Democracy is strongest when citizens are informed, engaged, and unafraid to speak.
           </motion.p>
 
-          {/* Body copy */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.9 }}
             className="mt-5 text-sm text-charcoal/50 max-w-lg leading-relaxed"
           >
-            NOTA Speaks is an independent platform for Legal Awareness, Civic Education, 
-            Constitutional Literacy, and Active Citizenship — because an informed citizen 
+            NOTA Speaks is an independent platform for Legal Awareness, Civic Education,
+            Constitutional Literacy, and Active Citizenship — because an informed citizen
             is the king of a democracy.
           </motion.p>
 
-          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -164,10 +148,14 @@ export default function HeroSection({ onJoinClick }) {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </button>
+
             <a
               href="#campaigns"
               className="btn-secondary text-sm"
-              onClick={e => { e.preventDefault(); document.querySelector('#campaigns')?.scrollIntoView({ behavior: 'smooth' }) }}
+              onClick={(e) => {
+                e.preventDefault()
+                document.querySelector('#campaigns')?.scrollIntoView({ behavior: 'smooth' })
+              }}
             >
               Explore Campaigns
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -176,7 +164,6 @@ export default function HeroSection({ onJoinClick }) {
             </a>
           </motion.div>
 
-          {/* Stats bar */}
           <motion.div
             ref={statsRef}
             initial={{ opacity: 0, y: 20 }}
@@ -184,9 +171,9 @@ export default function HeroSection({ onJoinClick }) {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex flex-wrap gap-8 md:gap-12 pt-8 border-t border-charcoal/10"
           >
-            {stats.map(({ num, label }, i) => (
+            {safeStats.map(({ num, label }, i) => (
               <motion.div
-                key={label}
+                key={label || i}
                 initial={{ opacity: 0, y: 16 }}
                 animate={statsInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.3 + i * 0.08 }}
@@ -199,7 +186,6 @@ export default function HeroSection({ onJoinClick }) {
         </div>
       </div>
 
-      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

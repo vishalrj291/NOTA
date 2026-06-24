@@ -28,6 +28,7 @@ function AppContent() {
             <Route path="/" element={<Home onJoinClick={() => setJoinOpen(true)} />} />
             <Route path="/campaigns/:id" element={<CampaignDetail onJoinClick={() => setJoinOpen(true)} />} />
             <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<AdminLogin />} />
             <Route path="/admin/*" element={<AdminLayout />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
